@@ -3,8 +3,8 @@ const SdCard = android.os.Environment.getExternalStorageDirectory().getAbsoluteP
 const AI = {}; //AI 관련 함수들이 들어갈 객체
 const InoutPut = {}; //저장 및 읽기 관련 함수들이 들어갈 객체.
 const PreMsg = {}; //도배 방지용 객체
-const Feel = {};
+const Feel = {happy:70,sad:30,angry:10};
 /*Feel에 포함된 함수들 정의*/
-Feel.happy = 70
+
 /*AI에 포함된 함수들 정의*/
 AI.say = function(msg, replier)
