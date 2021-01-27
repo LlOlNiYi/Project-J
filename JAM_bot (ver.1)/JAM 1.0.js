@@ -77,5 +77,24 @@ AI.study = function(room, msg) { //수신된 채팅을 학습하는 함수
   /*전역에서 실행할 것들*/
   DB.createDir(); //폴더생성
   function response (room, msg, sender, isGroupChat, replier, ImageDB) {
-
-}
+    msg = msg.trim();
+    room = room.trim();
+    sender = sender.trim();
+    /*도배 방지*/
+    if (preMsg[room] == msg) { //직전에 수신된 내용과 방금 수신된 채팅 내용이 같으면
+      return; //도배로 간주하고 response 함수 종료
+    }
+    
+    /*채팅 학습*/
+    if (AI.isValidData(msg)) { //배워야할 채팅이 수신된다면
+      AI.study(room,msg); //채팅을 배움
+    }
+    /*학습된 내용 전송*/
+    var random = Math.floor(Math.random()*10); //0~9중 랜덤하게 숫자 하나 생성
+    if (random == 0) { //그 숫자가 0이라면 (1/10 확률)
+      var chat = AI.getRandomChat(room); //해당 방에서 수신된 채팅들 중 아무 채팅이나 하나 불러옴
+      if (Math.floor(chat.split('').filter((e, i)=>e==msg[i]).length/chat.length*100)+'%'=>70) { //일치율이 70퍼센트 이상이라면
+        if (chat != null) AI.say(chat, replier); //수신된 채팅이 있는 상황이면 말 전송
+        Log.info("자동학습 실행됨\n[" + sender + "] " + msg + "\n[봇] " + chat); //로그 저장
+      }
+    }
