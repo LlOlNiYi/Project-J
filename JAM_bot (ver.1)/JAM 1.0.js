@@ -19,11 +19,11 @@ AI.getRandomChatData = function(room) { //랜덤하게 저장된 채팅을 하�
 };
 AI.isValidData = function(data) { //배울 말과 배우지 않을 말을 구분하는 함수
   var noSave = ["사진","동영상","음성메세지","(이모티콘)","카카오톡 프로필"]; //사진이나 동영상 등을 보내는 경우
-  for (var no = 0; no < noSave.length; n++) { //배우지 않도록 예외처리
+  for (var no = 0; no < noSave.length; no++) { //배우지 않도록 예외처리
     if (noSave[no].indexOf(data) != -1) return false; //배열 요소중 하나라도 포함되는게 있다면 false 반환
   }
       noSave = ["\n", "/"]; //이 배열에 들어있는 내용이 포함된 채팅은 배우지 않음. (필터링)
-    for (var no = 0; n < noSave.length; n++) { //배열의 길이만큼 반복
+    for (var no = 0; no < noSave.length; no++) { //배열의 길이만큼 반복
         if (noSave[no].indexOf(data) != -1) return false; //배열의 요소들 중 포함되는게 하나라도 있다면, false 반환
     }
     return true; //아니면 true 반환
@@ -81,7 +81,7 @@ AI.study = function(room, msg) { //수신된 채팅을 학습하는 함수
     room = room.trim();
     sender = sender.trim();
     /*도배 방지*/
-    if (preMsg[room] == msg) { //직전에 수신된 내용과 방금 수신된 채팅 내용이 같으면
+    if (PreMsg[room] == msg) { //직전에 수신된 내용과 방금 수신된 채팅 내용이 같으면
       return; //도배로 간주하고 response 함수 종료
     }
     
@@ -92,9 +92,10 @@ AI.study = function(room, msg) { //수신된 채팅을 학습하는 함수
     /*학습된 내용 전송*/
     var random = Math.floor(Math.random()*10); //0~9중 랜덤하게 숫자 하나 생성
     if (random == 0) { //그 숫자가 0이라면 (1/10 확률)
-      var chat = AI.getRandomChat(room); //해당 방에서 수신된 채팅들 중 아무 채팅이나 하나 불러옴
-      if (Math.floor(chat.split('').filter((e, i)=>e==msg[i]).length/chat.length*100)+'%'=>70) { //일치율이 70퍼센트 이상이라면
+      var chat = AI.getRandomChatData(room); //해당 방에서 수신된 채팅들 중 아무 채팅이나 하나 불러옴
+      if (Math.floor(chat.split('').filter((e, i)=>e==msg[i]).length/chat.length*100)>=70){
         if (chat != null) AI.say(chat, replier); //수신된 채팅이 있는 상황이면 말 전송
         Log.info("자동학습 실행됨\n[" + sender + "] " + msg + "\n[봇] " + chat); //로그 저장
       }
-    }
+   }
+}
