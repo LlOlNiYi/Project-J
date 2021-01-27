@@ -1,3 +1,5 @@
+##결론부터 말함 망했음!!
+##닼토님 코드 보고 분석하면서 해본다고 했는데 망함!!
 /*상수 선언*/
 const SdCard = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //내장메모리 상위 경로 가져오기.
 const AI = {}; //AI 관련 함수들이 들어갈 객체
